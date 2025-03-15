@@ -20,9 +20,15 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`bg-gray-900 text-gray-200 ${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <header className="bg-gray-800 text-white p-4">
+          <h1 className="text-2xl font-bold">P2P Emergency Fund</h1>
+        </header>
+        <main>{children}</main>
+        <footer className="bg-gray-800 text-gray-400 text-center p-4 mt-auto">
+          <p>© 2025 P2P Emergency Fund</p>
+        </footer>
       </body>
     </html>
   );
