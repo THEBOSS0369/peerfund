@@ -1,9 +1,10 @@
+// src/components/ui/Card.js
 import React from "react";
 
-export default function Card({ children, className, ...props }) {
+export default function Card({ children, className = "", ...props }) {
   return (
     <div
-      className={`border border-gray-700 rounded-lg shadow-md p-4 bg-gray-800 text-gray-200 ${className}`}
+      className={`rounded-xl shadow-lg p-4 bg-gray-800 text-gray-200 border border-gray-700 backdrop-blur-sm ${className}`}
       {...props}
     >
       {children}
@@ -11,14 +12,34 @@ export default function Card({ children, className, ...props }) {
   );
 }
 
-export function CardHeader({ children }) {
-  return <div className="mb-2">{children}</div>;
+export function CardHeader({ children, className = "", ...props }) {
+  return (
+    <div className={`mb-4 pb-2 border-b border-gray-700 ${className}`} {...props}>
+      {children}
+    </div>
+  );
 }
 
-export function CardTitle({ children }) {
-  return <h2 className="text-xl font-semibold text-white">{children}</h2>;
+export function CardTitle({ children, className = "", ...props }) {
+  return (
+    <h2 className={`text-2xl font-bold text-white ${className}`} {...props}>
+      {children}
+    </h2>
+  );
 }
 
-export function CardContent({ children }) {
-  return <div>{children}</div>;
+export function CardContent({ children, className = "", ...props }) {
+  return (
+    <div className={className} {...props}>
+      {children}
+    </div>
+  );
+}
+
+export function CardFooter({ children, className = "", ...props }) {
+  return (
+    <div className={`mt-4 pt-2 border-t border-gray-700 ${className}`} {...props}>
+      {children}
+    </div>
+  );
 }
