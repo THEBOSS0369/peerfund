@@ -3,7 +3,7 @@ import React from "react";
 export default function Card({ children, className, ...props }) {
   return (
     <div
-      className={`border border-gray-700 rounded-lg shadow-md p-4 bg-gray-800 text-gray-200 ${className}`}
+      className={`border border-gray-300 rounded-lg shadow-lg p-4 bg-gray-200 text-gray-200 ${className}`}
       {...props}
     >
       {children}
@@ -16,7 +16,7 @@ export function CardHeader({ children }) {
 }
 
 export function CardTitle({ children }) {
-  return <h2 className="text-xl font-semibold text-white">{children}</h2>;
+  return <h2 className="text-xl font-semibold text-gray-800">{children}</h2>;
 }
 
 export function CardContent({ children }) {

@@ -2,6 +2,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import Button from "../components/ui/Button";
+import Image from "next/image";
 import Card, {
   CardHeader,
   CardTitle,
@@ -41,23 +42,41 @@ export default function Home() {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col items-center py-8">
-      <div className="w-full max-w-6xl bg-white p-8 rounded-lg shadow-lg">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+    <div className="min-h-screen bg-gray-100 flex p-4 flex-col items-center py-8">
+      <div className="w-full bg-white p-12 rounded-lg shadow-lg">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
           <div>
-            <h1 className="text-5xl font-bold text-gray-900">
-              Responsible Banking Made Easier
-            </h1>
-            <p className="text-gray-600 mt-4">
-              Financial services, including P2P payments, balance check, and
-              top-ups, are now available from any mobile app.
-            </p>
-            <Button className="mt-6">Download Application</Button>
+            <Image
+              src="/girl.png"
+              width={300}
+              height={300}
+              alt="Banking UI"
+              className="rounded-lg"
+            />
           </div>
           <div>
-            <img
-              src="/banking-ui.png"
-              alt="Banking UI"
+            <h1 className="text-6xl font-extrabold text-gray-900">
+              DONATE FUNDS IN
+              <br />
+              <spna className="text-green-600">ETHERIUM</spna>
+              <br />
+              TO SOMEONE IN NEED.
+            </h1>
+            <p className="text-gray-600 mt-4">
+              Responsibly Transfer Funds to those who are in need wihtout worry
+              about anything. Financial services, including P2P payments,
+              balance check, and top-ups, are now available from any mobile app.
+            </p>
+            {/* <Button className="mt-6 flex justify-center text-black">
+              Donate Now
+            </Button> */}
+          </div>
+          <div className="flex justify-end">
+            <Image
+              src="/phone.png"
+              width={300}
+              height={300}
+              alt="Phone"
               className="rounded-lg"
             />
           </div>
@@ -79,7 +98,7 @@ export default function Home() {
       <div className="max-w-6xl w-full grid grid-cols-1 md:grid-cols-3 gap-6">
         {campaigns.map((campaign) => (
           <Link href={`/campaign/${campaign.id}`} key={campaign.id}>
-            <Card className="hover:bg-gray-200 transition-colors cursor-pointer">
+            <Card className="hover:bg-gray-300 transition-colors cursor-pointer">
               <CardHeader>
                 <CardTitle>{campaign.title}</CardTitle>
               </CardHeader>

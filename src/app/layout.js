@@ -36,12 +36,6 @@ export default function RootLayout({ children }) {
             <a href="#" className="hover:text-gray-400">
               Dashboard
             </a>
-            <a href="#" className="hover:text-gray-400">
-              Company
-            </a>
-            <a href="#" className="hover:text-gray-400">
-              Pricing
-            </a>
           </nav>
           <div className="flex items-center space-x-4">
             <button className="border border-gray-500 px-4 py-2 rounded-lg hover:bg-gray-700">
@@ -53,7 +47,7 @@ export default function RootLayout({ children }) {
           </div>
         </header>
         <main>{children}</main>
-        <footer className="bg-gray-800 text-gray-400 text-center p-4 mt-auto">
+        <footer className="bg-black text-gray-400 text-center p-4 mt-auto">
           <p>© 2025 P2P Emergency Fund</p>
         </footer>
       </body>

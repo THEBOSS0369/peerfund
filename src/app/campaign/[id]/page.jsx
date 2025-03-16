@@ -1,4 +1,3 @@
-// src/app/campaign/[id]/page.js
 "use client";
 import { useState } from "react";
 import { useParams } from "next/navigation";
@@ -13,11 +12,10 @@ import useWallet from "../../../hooks/useWallet";
 
 export default function CampaignPage() {
   const { account, connectWallet } = useWallet();
-  const { id } = useParams(); // Get the campaign ID from the URL
+  const { id } = useParams();
   const [donationAmount, setDonationAmount] = useState("");
 
-  // Sample campaign data with state to update raised amount
-  const [campaigns, setCampaigns] = useState([
+  const [campaigns] = useState([
     {
       id: "1",
       title: "Medical Emergency Fund",
@@ -25,6 +23,8 @@ export default function CampaignPage() {
       goal: 5,
       raised: 2.5,
       receiver: "0xReceiverAddress1",
+      receiverPhoto: "/alex.jpeg",
+      proofVerified: true,
     },
     {
       id: "2",
@@ -33,6 +33,8 @@ export default function CampaignPage() {
       goal: 3,
       raised: 1.2,
       receiver: "0xReceiverAddress2",
+      receiverPhoto: "/martha.avif",
+      proofVerified: false,
     },
     {
       id: "3",
@@ -41,13 +43,17 @@ export default function CampaignPage() {
       goal: 4,
       raised: 3.8,
       receiver: "0xReceiverAddress3",
+      receiverPhoto: "/mark.jpg",
+      proofVerified: true,
     },
   ]);
 
   const campaign = campaigns.find((c) => c.id === id) || {};
   const isGoalReached = campaign.raised >= campaign.goal;
 
-  const handleDonate = async () => {
+  const senderBalance = "1.5 ETH";
+
+  const handleDonate = () => {
     if (!account) {
       alert("Please connect your wallet first!");
       return;
@@ -56,60 +62,44 @@ export default function CampaignPage() {
       alert("Please enter a valid donation amount!");
       return;
     }
-
-    try {
-      const donation = parseFloat(donationAmount);
-      console.log(
-        `Sending ${donation} ETH to ${campaign.receiver} from ${account}`
-      );
-
-      // Update the campaign's raised amount
-      setCampaigns((prevCampaigns) =>
-        prevCampaigns.map((c) =>
-          c.id === id ? { ...c, raised: c.raised + donation } : c
-        )
-      );
-
-      setDonationAmount("");
-      alert("Donation successful! (Simulated)");
-    } catch (error) {
-      console.error("Donation failed:", error);
-      alert("Donation failed!");
-    }
+    alert("Donation successful! (Simulated)");
+    setDonationAmount("");
   };
 
   if (!campaign.id) {
     return (
-      <div className="min-h-screen bg-gray-900 text-white flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center text-black">
         <p>Campaign not found!</p>
       </div>
     );
   }
 
-  return (
-    <div className="min-h-screen bg-gray-900 flex flex-col items-center py-8">
-      <h1 className="text-4xl font-bold text-white mb-8">{campaign.title}</h1>
+  const progressPercentage = campaign.goal
+    ? (campaign.raised / campaign.goal) * 100
+    : 0;
 
-      {/* Wallet Connection */}
-      <div className="text-center mb-8">
+  return (
+    <div className="min-h-screen flex flex-col items-center py-8 bg-white">
+      <h1 className="text-4xl font-bold text-black mb-8">{campaign.title}</h1>
+
+      <div className="text-center mb-4">
         {!account ? (
           <Button onClick={connectWallet}>Connect Wallet</Button>
         ) : (
-          <p className="text-gray-400">
+          <p className="text-gray-700">
             Connected: {account.slice(0, 6)}...{account.slice(-4)}
           </p>
         )}
       </div>
 
-      {/* Campaign Details */}
-      <div className="max-w-2xl w-full">
-        <Card>
+      <div className="max-w-xl w-full">
+        <Card className="flex flex-col items-center text-center">
           <CardHeader>
             <CardTitle>{campaign.title}</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-gray-400 mb-2">{campaign.description}</p>
-            <ProgressBar progress={campaign.raised} max={campaign.goal} />
+            <p className="text-gray-700 mb-2">{campaign.description}</p>
+            <ProgressBar progress={progressPercentage} />
             <p className="text-sm text-gray-500 mt-1">
               {campaign.raised} ETH raised of {campaign.goal} ETH
             </p>
@@ -117,20 +107,40 @@ export default function CampaignPage() {
               Receiver: {campaign.receiver.slice(0, 6)}...
               {campaign.receiver.slice(-4)}
             </p>
+            <p className="text-sm font-bold text-blue-600 mt-2">
+              Sender's Balance: {senderBalance}
+            </p>
 
-            {/* Conditional Rendering for Goal Status */}
+            <div className="mt-4 flex flex-col items-center">
+              <img
+                src={campaign.receiverPhoto}
+                alt="Receiver"
+                className="w-36 h-36 rounded-full border mb-2"
+              />
+              <p className="text-sm font-bold">Receiver's Proof:</p>
+              <p
+                className={`mt-2 font-bold ${
+                  campaign.proofVerified ? "text-green-500" : "text-red-500"
+                }`}
+              >
+                {campaign.proofVerified
+                  ? "✅ Verified"
+                  : "❌ Not Verified / Scam"}
+              </p>
+            </div>
+
             {isGoalReached ? (
               <p className="text-green-500 font-bold mt-4">
                 Goal Reached! Thank you for your support!
               </p>
             ) : (
-              <div className="mt-4 flex space-x-2">
+              <div className="mt-4 flex flex-col items-center">
                 <input
                   type="number"
                   value={donationAmount}
                   onChange={(e) => setDonationAmount(e.target.value)}
                   placeholder="ETH amount"
-                  className="px-2 py-1 bg-gray-700 text-white border border-gray-600 rounded"
+                  className="px-2 py-1 bg-gray-200 text-black border border-gray-400 rounded mb-2"
                   step="0.01"
                 />
                 <Button variant="primary" onClick={handleDonate}>
